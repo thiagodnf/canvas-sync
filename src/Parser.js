@@ -34,7 +34,9 @@ export default class Parser {
             [...this.partialsMap].map(([, v]) => [v.name, v.content])
         );
 
-        return mustache.render(content, view, partials);
+        const rendered = mustache.render(content, view, partials);
+
+        return this.makeHtml(rendered);
     }
 
     applyCSS(html, styles = []) {
