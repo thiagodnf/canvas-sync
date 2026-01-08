@@ -1,13 +1,15 @@
-import CanvasAPIUtils from "../../utils/CanvasApiUtils.js";
-import Logger from "../../utils/Logger.js";
-
-const CANVAS_COURSE_ID = process.env.CANVAS_COURSE_ID;
+import HttpClient from "../HttpClient.js";
 
 export default class AssignmentAPI {
 
-    static async create(title, body) {
+    constructor(options) {
 
-        Logger.debug("Creating " + title)
+        this.httpClient = new HttpClient(options);
+
+        this.baseUrl = `/api/v1/courses/${options.canvasCourseId}/assignments`;
+    }
+
+    async create(title, body, settings = {}) {
 
         const payload = {
             assignment: {
@@ -16,14 +18,10 @@ export default class AssignmentAPI {
             }
         }
 
-        const url = `/api/v1/courses/${CANVAS_COURSE_ID}/assignments`;
-
-        return await CanvasAPIUtils.sendPost(url, payload);
+        return await this.httpClient.post(`${this.baseUrl}`, payload);
     }
 
-    static async update(id, body) {
-
-        Logger.debug("Updating " + id)
+    async update(urlOrId, body, settings = {}) {
 
         const payload = {
             assignment: {
@@ -31,48 +29,30 @@ export default class AssignmentAPI {
             }
         }
 
-        const url = `/api/v1/courses/${CANVAS_COURSE_ID}/assignments/${id}`;
-
-        return await CanvasAPIUtils.sendPut(url, payload);
+        return await this.httpClient.put(`${this.baseUrl}/${urlOrId}`, payload);
     }
 
-    static async fetchByTitle(title) {
-
-        Logger.debug("Fetching " + title)
+    async fetchByTitle(title) {
 
         const titleEncoded = encodeURIComponent(title);
 
-        const url = `/api/v1/courses/${CANVAS_COURSE_ID}/assignments?search_term=${titleEncoded}`;
+        const url = `${this.baseUrl}?search_term=${titleEncoded}`;
 
-        const rows = await CanvasAPIUtils.sendGet(url);
+        const rows = await this.httpClient.get(url);
 
-        for (const row of rows) {
-
-            if (row.name.trim().toLowerCase() === title.trim().toLowerCase()) {
-                return [row]
-            }
-        }
-
-        return [];
+        return rows.filter(r => r.title.trim().toLowerCase() === title.trim().toLowerCase());
     }
 
-    static async sync({content, metadata}) {
+    async sync(title, content, settings = {}) {
 
-        const { title } = metadata;
+        const pages = await this.fetchByTitle(title);
 
-        const assignments = await this.fetchByTitle(title);
-
-        if (assignments.length === 0) {
-
-            await this.create(title, content);
-
-        } else if (assignments.length === 1) {
-
-            const { id } = assignments[0];
-
-            await this.update(id, content);
+        if (pages.length === 0) {
+            await this.create(title, content, settings);
+        } else if (pages.length === 1) {
+            await this.update(pages[0].page_id, content, settings);
         } else {
-            throw new Error(`The search returned > 1 assignment for "${title}"`);
+            throw new Error(`The page search returned > 1 assignment for "${title}"`);
         }
     }
 

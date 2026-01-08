@@ -1,4 +1,6 @@
 import PageAPI from "./api/resources/PageAPI.js";
+import AssignmentAPI from "./api/resources/AssignmentAPI.js";
+
 import PathUtils from "./utils/PathUtils.js";
 import Logger from "./utils/Logger.js";
 import Parser from "./Parser.js";
@@ -25,6 +27,7 @@ export default class CanvasSync {
         this.parser = new Parser();
 
         this.pageAPI = new PageAPI(options);
+        this.assignmentAPI = new AssignmentAPI(options);
     }
 
     async sync(resourceName, path, api) {
@@ -52,6 +55,15 @@ export default class CanvasSync {
     }
 
     async syncPages() {
-        await this.sync("Pages", './content/pages/**.md', this.pageAPI);
+        await this.sync("Pages", './content/pages/**/**.md', this.pageAPI);
+    }
+
+    async syncAssignments() {
+        await this.sync("Assignments", './content/assignments/**/**.md', this.assignmentAPI);
+    }
+
+    async syncAll() {
+        await this.syncPages();
+        await this.syncAssignments();
     }
 }

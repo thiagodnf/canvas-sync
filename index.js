@@ -8,6 +8,6 @@ const canvasSync = new CanvasSync({
     canvasCourseId: process.env.CANVAS_COURSE_ID
 });
 
-await canvasSync.syncPages();
+await canvasSync.syncAll();
 
 export { CanvasSync };
