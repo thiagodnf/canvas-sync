@@ -2,13 +2,13 @@
     "name": "canvas-sync",
     "version": "1.0.0",
     "description": "A minimal client for the Canvas LMS API, providing requests and resource management in Node.js",
-    "homepage": "https://github.com/thiagodnf/canvas-lms-api",
+    "homepage": "https://github.com/thiagodnf/canvas-sync",
     "bugs": {
-        "url": "https://github.com/thiagodnf/canvas-lms-api/issues"
+        "url": "https://github.com/thiagodnf/canvas-sync/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/thiagodnf/canvas-lms-api.git"
+        "url": "git+https://github.com/thiagodnf/canvas-sync.git"
     },
     "license": "MIT",
     "author": "Thiago Ferreira",
