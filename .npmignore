@@ -1,0 +1,8 @@
+# Ignore config files
+.github/
+.vscode
+
+.gitignore
+.gitattributes
+.env.sample
+package-lock.json
