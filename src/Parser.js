@@ -2,6 +2,7 @@ import showdown from "showdown";
 import juice from "juice";
 import yaml from "js-yaml";
 import mustache from "mustache";
+import showdownHighlight from "showdown-highlight";
 
 import PathUtils from "./utils/PathUtils.js";
 
@@ -16,7 +17,7 @@ export default class Parser {
             tables: true,
             metadata: true,
             parseImgDimensions: true,
-            extensions
+            extensions: [...extensions, showdownHighlight]
         });
 
         this.cssMap = PathUtils.readFolder('./content/resources/styles/**.**');
