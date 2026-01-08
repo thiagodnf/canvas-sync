@@ -3,14 +3,14 @@ import HttpClient from "../HttpClient.js";
 
 export default class PageAPI {
 
-    constructor() {
-        this.CANVAS_COURSE_ID = process.env.CANVAS_COURSE_ID || "";
+    constructor(options = {}) {
+        this.canvasCourseId = options.canvasCourseId;
         this.httpClient = new HttpClient();
     }
 
     async create(title, body, settings = {}) {
 
-        Logger.debug("Creating " + title)
+        Logger.info("Creating " + title)
 
         const payload = {
             wiki_page: {
@@ -20,14 +20,14 @@ export default class PageAPI {
             }
         }
 
-        const url = `/api/v1/courses/${this.CANVAS_COURSE_ID}/pages`;
+        const url = `/api/v1/courses/${this.canvasCourseId}/pages`;
 
         return await this.httpClient.post(url, payload);
     }
 
     async update(title_url, body, settings = {}) {
 
-        Logger.debug("Updating " + title_url)
+        Logger.info("Updating " + title_url)
 
         const payload = {
             wiki_page: {
@@ -36,18 +36,18 @@ export default class PageAPI {
             }
         }
 
-        const url = `/api/v1/courses/${this.CANVAS_COURSE_ID}/pages/${title_url}`;
+        const url = `/api/v1/courses/${this.canvasCourseId}/pages/${title_url}`;
 
         return await this.httpClient.put(url, payload);
     }
 
     async fetchByTitle(title) {
 
-        Logger.debug("Fetching " + title)
+        Logger.info("Fetching " + title)
 
         const titleEncoded = encodeURIComponent(title);
 
-        const url = `/api/v1/courses/${this.CANVAS_COURSE_ID}/pages?search_term=${titleEncoded}`;
+        const url = `/api/v1/courses/${this.canvasCourseId}/pages?search_term=${titleEncoded}`;
 
         const rows = await this.httpClient.get(url);
 
