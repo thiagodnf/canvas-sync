@@ -40,7 +40,7 @@ export default class AssignmentAPI {
 
         const rows = await this.httpClient.get(url);
 
-        return rows.filter(r => r.title.trim().toLowerCase() === title.trim().toLowerCase());
+        return rows.filter(r => r.name.trim().toLowerCase() === title.trim().toLowerCase());
     }
 
     async sync(title, content, settings = {}) {
