@@ -3,7 +3,7 @@ export default class HttpClient {
     constructor() {
 
         this.CANVAS_API_URL = process.env.CANVAS_API_URL || "";
-        this.CANVAS_API_TOKEN = process.env.CANVAS_API_TOKEN | "";
+        this.CANVAS_API_TOKEN = process.env.CANVAS_API_TOKEN || "";
 
         this.headers = {
             "Authorization": `Bearer ${this.CANVAS_API_TOKEN}`,
