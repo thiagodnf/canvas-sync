@@ -61,15 +61,15 @@ export default class Parser {
 
     parse(path) {
 
+        const view = {
+            courseId: this.options.canvasCourseId
+        };
+
         const files = PathUtils.readFolder(path);
 
         for (const file of files.values()) {
 
-            const view = {
-                courseId: this.options.canvasCourseId
-            };
-
-            const rendered = mustache.render(file.content, view, partials);
+            const rendered = mustache.render(file.content, view);
 
             Object.assign(file, this.makeHtml(rendered));
 
