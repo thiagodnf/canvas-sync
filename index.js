@@ -17,17 +17,17 @@ if (args.length === 0) {
     const action = args[0];
     const resource = args[1];
 
-    if (resource === 0) {
+    if (!resource) {
         await canvasSync.syncAll(action);
     } else {
-        if (args[0] === "syllabus") {
+        if (resource === "syllabus") {
             await canvasSync.syncSyllabus(action);
-        } else if (args[0] === "pages") {
+        } else if (resource === "pages") {
             await canvasSync.syncPages(action);
-        } else if (args[0] === "assignments") {
+        } else if (resource === "assignments") {
             await canvasSync.syncAssignments(action);
         } else {
-            throw new Error(`${args[0]} not recognized`);
+            throw new Error(`${resource} not recognized`);
         }
     }
 }
