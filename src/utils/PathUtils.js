@@ -73,10 +73,12 @@ export default class PathUtils {
 
     static saveToDisk(resourceName, filename, fileContent = "") {
 
-        const output = `./.html/${resourceName.toLowerCase()}/${filename}.html`;
+        const outputFolder = `./.html/${resourceName.toLowerCase()}/`;
 
-        this.createFolders(output);
+        const outputFile = `${outputFolder}/${filename}.html`;
 
-        writeFileSync(output, fileContent);
+        this.createFolders(outputFolder);
+
+        writeFileSync(outputFile, fileContent);
     }
 }
