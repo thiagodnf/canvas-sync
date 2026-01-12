@@ -66,9 +66,9 @@ export default class CanvasSync {
 
     async syncAll() {
 
+        await this.syncSyllabus();
         await this.syncPages();
         await this.syncAssignments();
-        await this.syncSyllabus();
 
         Logger.info(`------------------------------------------------------`);
         Logger.info("Done");
