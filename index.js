@@ -17,25 +17,18 @@ if (args.length === 0) {
     const action = args[0];
     const resource = args[1];
 
-    if (action === "sync") {
-
-        if (resource === 0) {
-            await canvasSync.syncAll(action);
-        } else {
-            if (args[0] === "syllabus") {
-                await canvasSync.syncSyllabus(action);
-            } else if (args[0] === "pages") {
-                await canvasSync.syncPages(action);
-            } else if (args[0] === "assignments") {
-                await canvasSync.syncAssignments(action);
-            } else {
-                throw new Error(`${args[0]} not recognized`);
-            }
-        }
-    } else if (action === "download") {
-
+    if (!resource) {
+        await canvasSync.syncAll(action);
     } else {
-        throw new Error("Operation not recognized. Try 'sync' or 'download'.");
+        if (resource === "syllabus") {
+            await canvasSync.syncSyllabus(action);
+        } else if (resource === "pages") {
+            await canvasSync.syncPages(action);
+        } else if (resource === "assignments") {
+            await canvasSync.syncAssignments(action);
+        } else {
+            throw new Error(`${resource} not recognized`);
+        }
     }
 }
 
