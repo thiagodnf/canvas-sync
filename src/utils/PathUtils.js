@@ -71,11 +71,11 @@ export default class PathUtils {
         return extensions;
     }
 
-    static saveToDisk(filename, fileContent = "") {
+    static saveToDisk(resourceName, filename, fileContent = "") {
 
-        const output = `./.output/${filename}.html`;
+        const output = `./.html/${resourceName.toLowerCase()}/${filename}.html`;
 
-        this.createFolders(`./.output`);
+        this.createFolders(`./.html`);
 
         writeFileSync(output, fileContent);
     }

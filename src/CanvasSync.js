@@ -46,10 +46,10 @@ export default class CanvasSync {
 
             Logger.info(`[${index + 1}/${files.size}] ${file.base}`);
 
+            PathUtils.saveToDisk(resourceName, file.name, file.html);
+
             if (action === "sync") {
                 await api.sync(file.name, file.html, file.metadata);
-            } else if (action === "download") {
-                PathUtils.saveToDisk(file.name, file.html);
             }
 
             index++
