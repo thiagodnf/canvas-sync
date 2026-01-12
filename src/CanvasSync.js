@@ -32,7 +32,7 @@ export default class CanvasSync {
         this.syllabusAPI = new SyllabusAPI(options);
     }
 
-    async sync(resourceName, path, api) {
+    async run(action, resourceName, path, api) {
 
         Logger.info(`------------------------------------------------------`);
         Logger.info(`Synchronizing ${resourceName}...`);
@@ -46,29 +46,33 @@ export default class CanvasSync {
 
             Logger.info(`[${index + 1}/${files.size}] ${file.base}`);
 
-            await api.sync(file.name, file.html, file.metadata);
+            if (action === "sync") {
+                await api.sync(file.name, file.html, file.metadata);
+            } else if (action === "download") {
+                PathUtils.saveToDisk(file.name, file.html);
+            }
 
             index++
         }
     }
 
-    async syncPages() {
-        await this.sync("Pages", './content/pages/**/**.md', this.pageAPI);
+    async syncPages(action = "sync") {
+        await this.run(action, "Pages", './content/pages/**/**.md', this.pageAPI);
     }
 
-    async syncAssignments() {
-        await this.sync("Assignments", './content/assignments/**/**.md', this.assignmentAPI);
+    async syncAssignments(action = "sync") {
+        await this.run(action, "Assignments", './content/assignments/**/**.md', this.assignmentAPI);
     }
 
-    async syncSyllabus() {
-        await this.sync("Syllabus", './content/Syllabus.md', this.syllabusAPI);
+    async syncSyllabus(action = "sync") {
+        await this.run(action, "Syllabus", './content/Syllabus.md', this.syllabusAPI);
     }
 
-    async syncAll() {
+    async syncAll(action = "sync") {
 
-        await this.syncSyllabus();
-        await this.syncPages();
-        await this.syncAssignments();
+        await this.syncSyllabus(action);
+        await this.syncPages(action);
+        await this.syncAssignments(action);
 
         Logger.info(`------------------------------------------------------`);
         Logger.info("Done");

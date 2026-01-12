@@ -1,4 +1,4 @@
-import fs, { mkdirSync } from "fs";
+import fs, { mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import { globSync } from "glob";
 import { pathToFileURL } from "url";
@@ -69,5 +69,14 @@ export default class PathUtils {
         }
 
         return extensions;
+    }
+
+    static saveToDisk(filename, fileContent = "") {
+
+        const output = `./.output/${filename}.html`;
+
+        this.createFolders(`./.output`);
+
+        writeFileSync(output, fileContent);
     }
 }

@@ -11,16 +11,24 @@ const canvasSync = new CanvasSync({
 let args = process.argv.slice(2).map(e => e.trim());
 
 if (args.length === 0) {
-    await canvasSync.syncAll();
+    throw new Error("The operation is missing. It should be 'sync' or 'download'");
 } else {
-    if (args[0] === "syllabus") {
-        await canvasSync.syncSyllabus();
-    } else if (args[0] === "pages") {
-        await canvasSync.syncPages();
-    } else if (args[0] === "assignments") {
-        await canvasSync.syncAssignments();
+
+    const action = args[0];
+    const resource = args[1];
+
+    if (resource === 0) {
+        await canvasSync.syncAll(action);
     } else {
-        throw new Error(`${args[0]} not recognized`);
+        if (args[0] === "syllabus") {
+            await canvasSync.syncSyllabus(action);
+        } else if (args[0] === "pages") {
+            await canvasSync.syncPages(action);
+        } else if (args[0] === "assignments") {
+            await canvasSync.syncAssignments(action);
+        } else {
+            throw new Error(`${args[0]} not recognized`);
+        }
     }
 }
 
